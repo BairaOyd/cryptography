@@ -139,3 +139,74 @@ mpz_class gen::kbit_prime_random(int k)
 	// Error
 	assert(false && "never will see");
 }
+
+mpz_class gen::random_in_cyclic_group(mpz_class group_order)
+{
+	return gen::rand.get_z_range(group_order-1) + 1;
+}
+
+mpz_class gen::modular_power(mpz_class base, mpz_class exp, mpz_class mod) 
+{
+	mpz_t result;
+	mpz_powm (result, base.get_mpz_t(), exp.get_mpz_t(), mod.get_mpz_t());
+	return mpz_class(result);
+}
+
+mpz_class gen::safe_prime(int k)
+{
+	mpz_class q, p;
+	while (true) 
+	{
+		q = gen::kbit_prime_random(k-1);
+		p = 2*q + 1;
+	
+		// test if p is prime
+		if (mpz_probab_prime_p(p.get_mpz_t(), 10))
+		{
+			break;
+		}
+	}
+	// p is prime
+	return p;
+}
+
+ 
+mpz_class gen::cyclic_group_generator(mpz_class n )
+{
+	// n = 2*q
+	mpz_class alpha;
+	while (true)
+	{
+		alpha = gen::random_in_cyclic_group(n);
+		// p1 = 2, p2 = q 
+		mpz_class q = n / 2;
+		
+		mpz_class b1 = modular_power(alpha, 2, n);
+		if (b1 == 1) {
+			continue;
+		}
+		mpz_class b2 = modular_power(alpha, q, n);
+		if (b2 == 1) {
+			continue;
+		}
+		break;
+	}
+	return alpha;
+}
+ /*
+mpz_class generate_power_key(mpz_class p, mpz_class alpha)
+{
+	mpz_class a = gen::random_in_cyclic_group(p-2);
+	mpz_class result = modular_power(alpha, a, p);
+	return result;
+}*/
+
+
+
+
+
+
+
+
+
+
