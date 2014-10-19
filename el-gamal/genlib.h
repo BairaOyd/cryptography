@@ -1,12 +1,6 @@
 #ifndef _GEN_LIB_H
 #define _GEN_LIB_H
 
-//#define DEBUG
-
-#ifdef DEBUG
-	#include <iostream>
-#endif
-
 #include <gmp.h>
 #include <gmpxx.h>
 #include <string>
@@ -22,16 +16,14 @@ class gen {
 		static mpz_class modular_power(mpz_class base, mpz_class exp, mpz_class mod); 
 		static mpz_class safe_prime(int k);
 		static mpz_class cyclic_group_generator(mpz_class n );
-		
-		
+				
 		static void set_security_parameter(int t);
 		static void set_small_primes_check_count(int cnt);
 
-	private:
-		
+	private:		
 		static int small_primes_check_count;
 		static int security_parameter;
-		static int primes_table[1000];
+		static int primes_table[];
 		static gmp_randclass rand;
 };
 
