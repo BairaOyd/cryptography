@@ -77,7 +77,7 @@ int gen::primes_table[1000] =
 int gen::security_parameter = 25;
 int gen::small_primes_check_count = 256;
 
-// see https://gmplib.org/manual/C_002b_002b-Interface-Random-Numbers.html
+// See https://gmplib.org/manual/C_002b_002b-Interface-Random-Numbers.html
 gmp_randclass gen::rand(gmp_randinit_default);
 
 void gen::set_security_parameter(int t){
@@ -96,7 +96,7 @@ mpz_class gen::kbit_odd_random(int k)
 	mpz_class r = gen::rand.get_z_bits(k);
 	mpz_class oddr(r);
 	 
-	mpz_setbit(oddr.get_mpz_t(), 0);// if it was even number it became odd
+	mpz_setbit(oddr.get_mpz_t(), 0);	// If it was even number, now it has become an odd
 	#ifdef DEBUG
 		std::cout << "\tr = " << r << "; odd : = " << oddr << std::endl;
 	#endif
@@ -113,7 +113,7 @@ mpz_class gen::kbit_prime_random(int k)
         {
             n = gen::kbit_odd_random(k);
             search = false;
-            // n is divisible by any odd prime <= gen::small_primes_check_count
+            // check if n is divisible by any odd prime <= gen::small_primes_check_count
             for (int i = 0; i < gen::small_primes_check_count; ++i)
             {
 				if ( n != gen::primes_table[i] && (0 == (n % gen::primes_table[i]) ) ) {
@@ -127,7 +127,7 @@ mpz_class gen::kbit_prime_random(int k)
 		#ifdef DEBUG
 			std::cout << "\tK = " << k << "; Odd number we get : = " << n << std::endl;
 		#endif
-		// Miller Rabin primality Test
+		// Miller Rabin Primality Test
         if (mpz_probab_prime_p(n.get_mpz_t() , gen::security_parameter))
 		{
 			#ifdef DEBUG
@@ -136,6 +136,6 @@ mpz_class gen::kbit_prime_random(int k)
             return n;
 		}
     }
-	// error
+	// Error
 	assert(false && "never will see");
 }

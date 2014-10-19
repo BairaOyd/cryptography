@@ -15,9 +15,7 @@
 
 class gen {
 	public:
-
-	static void seed(unsigned long int s);
-		
+		static void seed(unsigned long int s);
 		static mpz_class kbit_prime_random(int k);	
 		
 		static void set_security_parameter(int t);
